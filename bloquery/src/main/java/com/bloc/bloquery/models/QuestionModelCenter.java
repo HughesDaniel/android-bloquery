@@ -1,5 +1,7 @@
 package com.bloc.bloquery.models;
 
+import android.util.Log;
+
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
@@ -13,6 +15,11 @@ import java.util.List;
  */
 public class QuestionModelCenter {
 
+    public static interface onParseUpdate {
+        public void onUpdate(List<QuestionModel> questionList);
+        public void onModelUpdate();
+    }
+
     private static final String TAG = ".QuestionModelCenter.java";
 
     // the name of the parse class we store our question data in
@@ -21,25 +28,37 @@ public class QuestionModelCenter {
     // array that will hold Questions
     private List<QuestionModel> mQuestions = new ArrayList<QuestionModel>();
 
-    public QuestionModelCenter() {
+    // will point to the class that will be passed in to the constructor
+    onParseUpdate mCallingClass;
 
+    public QuestionModelCenter(onParseUpdate observer) {
+        mCallingClass = observer;
     }
 
-    public List<QuestionModel> getQuestions() {
+    // Queries Parse and gets all Question classes that it has stored
+    public void getQuestions() {
 
         ParseQuery<ParseObject> query = ParseQuery.getQuery(PARSE_CLASS);
         query.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> parseObjects, ParseException e) {
-                if (null == e) {
-                    for (ParseObject o: parseObjects) {;
-                        mQuestions.add(new QuestionModel(o.getObjectId()));
+                if (null == e) { // success
+                    for (ParseObject o: parseObjects) {
+                        // creates a question model
+                        QuestionModel temp = new QuestionModel(o.getObjectId(), mCallingClass);
+                        // adds it to the list
+                        mQuestions.add(temp);
                     }
-
+                    // passes the list back to whatever class called this method
+                    mCallingClass.onUpdate(mQuestions);
+                } else {
+                    Log.d(TAG, "Error getting Questions: " + e);
                 }
             }
         });
+    }
 
+    public List<QuestionModel> testGetQuestion() {
         return mQuestions;
     }
 }

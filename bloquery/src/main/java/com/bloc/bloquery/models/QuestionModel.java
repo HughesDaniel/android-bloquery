@@ -33,23 +33,27 @@ public class QuestionModel {
     private int mNumberOfAnswers = 0;
     //private List<Object> mAnswers = new ArrayList<Object>();
 
-    public QuestionModel(String questionId) {
+    // Creates a Question for a Question we already have on parse, using its unique ID
+    public QuestionModel(String questionId, final QuestionModelCenter.onParseUpdate observer) {
         mQuestionId = questionId;
+
         ParseQuery<ParseObject> query = ParseQuery.getQuery(PARSE_CLASS);
         query.getInBackground(mQuestionId, new GetCallback<ParseObject>() {
             @Override
             public void done(ParseObject object, ParseException e) {
                 if (null == e) {
-                    // successful, now get set the member variables
+                    // successful, now set set the member variables
                     mQuestion = object.getString(PARSE_QUESTION);
                     mAskerId= object.getString(PARSE_QUESTION_ASKER);
                     mNumberOfAnswers = object.getInt(PARSE_NUM_ANSWERS);
-
+                    //call back to let know whoever that all the Model variables contain data
+                    observer.onModelUpdate();
                 }
             }
         });
     }
 
+    // Creates a new Question and uploads it to Parse
     public QuestionModel(Context context, String question, String userId) {
         mContext = context;
         mQuestion = question;
