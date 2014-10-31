@@ -1,0 +1,50 @@
+package com.bloc.bloquery.adapters;
+
+import android.content.Context;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.TextView;
+
+import com.bloc.bloquery.R;
+import com.bloc.bloquery.models.QuestionModel;
+
+import java.util.List;
+
+/**
+ * Created by Daniel on 10/30/2014.
+ */
+public class QuestionAdapter extends ArrayAdapter<QuestionModel> {
+
+    private static final String TAG = ".QuestionAdapter.java";
+
+
+    public QuestionAdapter(Context context, int resource, List objects) {
+        super(context, resource, objects);
+    }
+
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
+        super.getView(position, convertView, parent);
+
+        View cView = convertView;
+
+        if (cView == null) {
+            LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+            cView = inflater.inflate(R.layout.question_in_lv, parent, false);
+        }
+
+        QuestionModel q = getItem(position);
+
+        TextView questionTextView = (TextView) cView.findViewById(R.id.tv_question_body);
+        questionTextView.setText(q.getQuestion());
+
+        TextView numberOfAnswersTextView = (TextView) cView.findViewById(R.id.tv_number_answers);
+        numberOfAnswersTextView.setText(String.valueOf(q.getNumberOfAnswers()));
+
+
+        return cView;
+
+    }
+}
