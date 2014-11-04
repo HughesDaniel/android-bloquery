@@ -5,10 +5,12 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.bloc.bloquery.fragments.AskQuestionDialog;
 import com.bloc.bloquery.fragments.QuestionsFragment;
+import com.bloc.bloquery.models.QuestionModel;
 
 
-public class BloMainActivity extends Activity {
+public class BloMainActivity extends Activity implements AskQuestionDialog.AskQuestionListener{
 
     private static final String TAG = ".BloMainActivity.java";
 
@@ -38,10 +40,18 @@ public class BloMainActivity extends Activity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         if (id == R.id.new_bloquery) {
-            // launch ask question dialog
+            AskQuestionDialog askQuestion = new AskQuestionDialog();
+            askQuestion.show(getFragmentManager(), "ask_question_dialog_fragment");
             return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onAskQuestion(String question) {
+        //TODO: replace this with code to get the user ID
+        String userId = "999";
+
+        new QuestionModel(this, question, userId);
+    }
 }
