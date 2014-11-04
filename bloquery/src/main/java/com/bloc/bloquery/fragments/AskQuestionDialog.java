@@ -17,7 +17,7 @@ import com.bloc.bloquery.R;
 public class AskQuestionDialog extends DialogFragment {
 
     public interface AskQuestionListener {
-        void onAskQuestion(String question);
+        void onAskQuestion(AskQuestionDialog askQuestionDialog, String question);
     }
 
     private static final String TAG = ".AskQuestionDialog.java";
@@ -43,7 +43,7 @@ public class AskQuestionDialog extends DialogFragment {
                 if (actionId == 0) {
                     AskQuestionListener activity = (AskQuestionListener) getActivity();
                     //call back attached ot the activity
-                    activity.onAskQuestion(mEditText.getText().toString());
+                    activity.onAskQuestion(AskQuestionDialog.this, mEditText.getText().toString());
                     closeDialog();
                     return true;
                 }

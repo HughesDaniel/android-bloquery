@@ -48,7 +48,7 @@ public class BloMainActivity extends Activity implements AskQuestionDialog.AskQu
     }
 
     @Override
-    public void onAskQuestion(String question) {
+    public void onAskQuestion(AskQuestionDialog askQuestionDialog, String question) {
         //TODO: replace this with code to get the user ID
         String userId = "999";
 
