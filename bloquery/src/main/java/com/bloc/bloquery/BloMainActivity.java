@@ -9,7 +9,7 @@ import android.view.MenuItem;
 import com.bloc.bloquery.fragments.AnswersFragment;
 import com.bloc.bloquery.fragments.AskQuestionDialog;
 import com.bloc.bloquery.fragments.QuestionsFragment;
-import com.bloc.bloquery.models.newQuestionModelCenter;
+import com.bloc.bloquery.models.QuestionModelCenter;
 
 
 public class BloMainActivity extends Activity implements AskQuestionDialog.AskQuestionListener,
@@ -28,32 +28,23 @@ public class BloMainActivity extends Activity implements AskQuestionDialog.AskQu
         }
     }
 
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.blo_query, menu);
-        return true;
+        return false;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-        if (id == R.id.new_bloquery) {
-            AskQuestionDialog askQuestion = new AskQuestionDialog();
-            askQuestion.show(getFragmentManager(), "ask_question_dialog_fragment");
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
+        super.onOptionsItemSelected(item);
+        return false;
     }
+
+    // vvvvvvvvvvvvvvvvvvvvv callbacks vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
 
     @Override
     public void onAskQuestion(AskQuestionDialog askQuestionDialog, String question) {
-        newQuestionModelCenter test = new newQuestionModelCenter();
-        test.createNewQuestion(question);
+        QuestionModelCenter qmc = new QuestionModelCenter();
+        qmc.createNewQuestion(question);
     }
 
     @Override

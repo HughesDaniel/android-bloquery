@@ -69,7 +69,7 @@ public class AnswersFragment extends Fragment {
                 new ParseQueryAdapter.QueryFactory<ParseObject>() {
                     public ParseQuery create() {
                         ParseQuery query = new ParseQuery("Answer");
-                        query.whereEqualTo("parent", mQuestionId);
+                        query.whereEqualTo("parent", ParseObject.createWithoutData("Question", mQuestionId));
                         return query;
                     }
                 };

@@ -4,6 +4,9 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -40,8 +43,14 @@ public class QuestionsFragment extends Fragment {
         try {
             mCallBack = (QuestionFragmentCallback) activity;
         } catch (ClassCastException e) {
-            throw new ClassCastException("Activity must implement NavigationDrawerCallbacks.");
+            throw new ClassCastException("Activity must implement QuestionFragmentCallback");
         }
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
     }
 
     @Override
@@ -71,5 +80,23 @@ public class QuestionsFragment extends Fragment {
         String id = mAdapter.getItem(position).getObjectId();
         String question = mAdapter.getItem(position).getString(PARSE_QUESTION);
         mCallBack.onQuestionItemSelected(id, question);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.blo_query, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        super.onOptionsItemSelected(item);
+        int id = item.getItemId();
+        if (id == R.id.new_bloquery) {
+            AskQuestionDialog askQuestion = new AskQuestionDialog();
+            askQuestion.show(getFragmentManager(), "ask_question_dialog_fragment");
+            return true;
+        }
+        return false;
     }
 }
