@@ -11,7 +11,6 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bloc.bloquery.R;
 import com.bloc.bloquery.adapters.AnswersAdapter;
@@ -61,8 +60,8 @@ public class AnswersFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        super.onCreateView(inflater, container, savedInstanceState);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle bundle) {
+        super.onCreateView(inflater, container, bundle);
 
         LinearLayout rootView = (LinearLayout) inflater.inflate(R.layout.answers_listview,
                 container, false);
@@ -75,7 +74,8 @@ public class AnswersFragment extends Fragment {
                 new ParseQueryAdapter.QueryFactory<ParseObject>() {
                     public ParseQuery create() {
                         ParseQuery query = new ParseQuery("Answer");
-                        query.whereEqualTo("parent", ParseObject.createWithoutData("Question", mQuestionId));
+                        query.whereEqualTo("parent",
+                                ParseObject.createWithoutData("Question", mQuestionId));
                         return query;
                     }
                 };
@@ -97,7 +97,8 @@ public class AnswersFragment extends Fragment {
         super.onOptionsItemSelected(item);
         int id = item.getItemId();
         if (id == R.id.answer_bloquery) {
-            Toast.makeText(getActivity(), "coming soon!", Toast.LENGTH_LONG).show();
+            AnswerQuestionDialog dialog = AnswerQuestionDialog.newInstance(mQuestion);
+            dialog.show(getFragmentManager(), "answer_questions_dailog_fragment");
         }
         return false;
     }

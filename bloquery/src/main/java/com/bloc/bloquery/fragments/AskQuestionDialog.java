@@ -1,5 +1,6 @@
 package com.bloc.bloquery.fragments;
 
+import android.app.Activity;
 import android.app.DialogFragment;
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -23,9 +24,23 @@ public class AskQuestionDialog extends DialogFragment {
     private static final String TAG = ".AskQuestionDialog.java";
 
     private EditText mEditText;
+    private AskQuestionListener mListener;
 
     public AskQuestionDialog() {
         // required constructor
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+
+        // Verify that the host activity implements the callback interface
+        try {
+            mListener = (AskQuestionListener) activity;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(activity.toString() +
+            " must implement AskQuestionListener");
+        }
     }
 
     @Override
@@ -41,9 +56,7 @@ public class AskQuestionDialog extends DialogFragment {
                 // 0 right now for debug as emulator doesnt have soft keyboard
                 // replace with EditorInfo.IME_ACTION_DONE
                 if (actionId == 0) {
-                    AskQuestionListener activity = (AskQuestionListener) getActivity();
-                    //call back attached to the activity
-                    activity.onAskQuestion(AskQuestionDialog.this, mEditText.getText().toString());
+                    mListener.onAskQuestion(AskQuestionDialog.this, mEditText.getText().toString());
                     closeDialog();
                     return true;
                 }

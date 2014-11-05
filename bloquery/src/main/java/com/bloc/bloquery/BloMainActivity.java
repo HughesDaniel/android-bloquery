@@ -5,7 +5,9 @@ import android.app.FragmentManager;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
+import com.bloc.bloquery.fragments.AnswerQuestionDialog;
 import com.bloc.bloquery.fragments.AnswersFragment;
 import com.bloc.bloquery.fragments.AskQuestionDialog;
 import com.bloc.bloquery.fragments.QuestionsFragment;
@@ -13,7 +15,7 @@ import com.bloc.bloquery.models.QuestionModelCenter;
 
 
 public class BloMainActivity extends Activity implements AskQuestionDialog.AskQuestionListener,
-        QuestionsFragment.QuestionFragmentCallback{
+        QuestionsFragment.QuestionFragmentCallback, AnswerQuestionDialog.AnswerQuestionListener {
 
     private static final String TAG = ".BloMainActivity.java";
 
@@ -53,5 +55,10 @@ public class BloMainActivity extends Activity implements AskQuestionDialog.AskQu
         fragmentManager.beginTransaction()
                 .replace(R.id.container, AnswersFragment.newInstance(id, question))
                 .commit();
+    }
+
+    @Override
+    public void onAnswerQuestion(AnswerQuestionDialog answerQuestionDialog, String answer) {
+        Toast.makeText(this, "Coming Soon!", Toast.LENGTH_SHORT).show();
     }
 }

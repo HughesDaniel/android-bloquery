@@ -4,6 +4,7 @@
     <string name="app_name">BloQuery</string>
     <string name="new_bloquery">New BloQuery</string>
     <string name="answer_bloquery">Answer BloQuery</string>
+    <string name="answer_hint">Enter your answer here</string>
 
     <string name="question_posted">Question Posted</string>
 
