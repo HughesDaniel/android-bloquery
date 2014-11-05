@@ -42,7 +42,7 @@ public class AskQuestionDialog extends DialogFragment {
                 // replace with EditorInfo.IME_ACTION_DONE
                 if (actionId == 0) {
                     AskQuestionListener activity = (AskQuestionListener) getActivity();
-                    //call back attached ot the activity
+                    //call back attached to the activity
                     activity.onAskQuestion(AskQuestionDialog.this, mEditText.getText().toString());
                     closeDialog();
                     return true;

@@ -67,6 +67,7 @@ public class QuestionModelCenter {
         });
     }
 
+    //TODO: either finish this or erase it depending on further implementation
     public void getQuestions() {
         ParseQuery<ParseObject> query = ParseQuery.getQuery(PARSE_CLASS);
 
