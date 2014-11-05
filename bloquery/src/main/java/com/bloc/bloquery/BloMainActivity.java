@@ -1,16 +1,19 @@
 package com.bloc.bloquery;
 
 import android.app.Activity;
+import android.app.FragmentManager;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.bloc.bloquery.fragments.AnswersFragment;
 import com.bloc.bloquery.fragments.AskQuestionDialog;
 import com.bloc.bloquery.fragments.QuestionsFragment;
-import com.bloc.bloquery.models.QuestionModel;
+import com.bloc.bloquery.models.newQuestionModelCenter;
 
 
-public class BloMainActivity extends Activity implements AskQuestionDialog.AskQuestionListener{
+public class BloMainActivity extends Activity implements AskQuestionDialog.AskQuestionListener,
+        QuestionsFragment.QuestionFragmentCallback{
 
     private static final String TAG = ".BloMainActivity.java";
 
@@ -49,9 +52,15 @@ public class BloMainActivity extends Activity implements AskQuestionDialog.AskQu
 
     @Override
     public void onAskQuestion(AskQuestionDialog askQuestionDialog, String question) {
-        //TODO: replace this with code to get the user ID
-        String userId = "999";
+        newQuestionModelCenter test = new newQuestionModelCenter();
+        test.createNewQuestion(question);
+    }
 
-        new QuestionModel(this, question, userId);
+    @Override
+    public void onQuestionItemSelected(String id, String question) {
+        FragmentManager fragmentManager = getFragmentManager();
+        fragmentManager.beginTransaction()
+                .replace(R.id.container, AnswersFragment.newInstance(id, question))
+                .commit();
     }
 }

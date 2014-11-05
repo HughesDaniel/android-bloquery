@@ -22,8 +22,8 @@ public class QuestionModel {
     private static final String PARSE_CLASS = "Question";
     private static final String PARSE_QUESTION = "theQuestion";
     private static final String PARSE_QUESTION_ASKER = "questionAsker";
-    private static final String PARSE_NUM_ANSWERS = "numBerOfAnswers";
-    private static final String PARSE_QUESTION_ANSWERS = "answerArray";
+    private static final String PARSE_NUM_ANSWERS = "numberOfAnswers";
+    private static final String PARSE_QUESTION_ANSWERS = "answers";
 
     // member variables
     private Context mContext;
