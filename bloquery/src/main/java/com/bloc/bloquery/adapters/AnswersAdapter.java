@@ -1,7 +1,6 @@
 package com.bloc.bloquery.adapters;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +16,7 @@ import com.parse.ParseQueryAdapter;
 public class AnswersAdapter extends ParseQueryAdapter{
 
     private static final String TAG = ".AnswersAdapter.java";
+    private static final String PARSE_ANSWER = "theAnser";
 
     public AnswersAdapter(Context context, QueryFactory queryFactory) {
         super(context, queryFactory);
@@ -34,8 +34,7 @@ public class AnswersAdapter extends ParseQueryAdapter{
         }
 
         TextView answerTextView = (TextView) cView.findViewById(R.id.tv_answer_body);
-        Log.d(TAG, "SDFSDFSDFSDFSDFSDFSDFSDFSDFSDFSDFSDF" + object.getObjectId());
-        answerTextView.setText(object.getString("theAnswer"));
+        answerTextView.setText(object.getString(PARSE_ANSWER));
 
         return cView;
     }
