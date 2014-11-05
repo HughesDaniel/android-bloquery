@@ -16,7 +16,7 @@ import com.parse.ParseQueryAdapter;
 public class AnswersAdapter extends ParseQueryAdapter{
 
     private static final String TAG = ".AnswersAdapter.java";
-    private static final String PARSE_ANSWER = "theAnser";
+    private static final String PARSE_ANSWER = "theAnswer";
 
     public AnswersAdapter(Context context, QueryFactory queryFactory) {
         super(context, queryFactory);
