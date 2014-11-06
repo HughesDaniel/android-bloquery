@@ -3,6 +3,7 @@ package com.bloc.bloquery.fragments;
 import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -16,6 +17,7 @@ import android.widget.ListView;
 
 import com.bloc.bloquery.R;
 import com.bloc.bloquery.adapters.QuestionsAdapter;
+import com.parse.ParseUser;
 
 /**
  * Created by Daniel on 10/29/2014.
@@ -75,6 +77,14 @@ public class QuestionsFragment extends Fragment {
         return rootView;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.d(TAG, "Entering onResume()");
+        mAdapter.notifyDataSetChanged();
+
+    }
+
     private void selectItem(int position) {
         // the unique ID of the question that was selected
         String id = mAdapter.getItem(position).getObjectId();
@@ -93,10 +103,20 @@ public class QuestionsFragment extends Fragment {
         super.onOptionsItemSelected(item);
         int id = item.getItemId();
         if (id == R.id.new_bloquery) {
-            AskQuestionDialog askQuestion = new AskQuestionDialog();
-            askQuestion.show(getFragmentManager(), "ask_question_dialog_fragment");
+            if (isLoggedIn()) {
+                AskQuestionDialog askQuestion = new AskQuestionDialog();
+                askQuestion.show(getFragmentManager(), "ask_question_dialog_fragment");
+            } else {
+                LoginDialog login = new LoginDialog();
+                login.show(getFragmentManager(), "login_dialog_fragment");
+            }
             return true;
         }
         return false;
+    }
+
+    private boolean isLoggedIn() {
+        ParseUser currentUser = ParseUser.getCurrentUser();
+        return (currentUser != null);
     }
 }

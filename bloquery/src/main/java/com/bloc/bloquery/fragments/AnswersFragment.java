@@ -17,6 +17,7 @@ import com.bloc.bloquery.adapters.AnswersAdapter;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseQueryAdapter;
+import com.parse.ParseUser;
 
 /**
  * Created by Daniel on 11/4/2014.
@@ -97,9 +98,20 @@ public class AnswersFragment extends Fragment {
         super.onOptionsItemSelected(item);
         int id = item.getItemId();
         if (id == R.id.answer_bloquery) {
-            AnswerQuestionDialog dialog = AnswerQuestionDialog.newInstance(mQuestion, mQuestionId);
-            dialog.show(getFragmentManager(), "answer_questions_dialog_fragment");
+            if (isLoggedIn()) {
+                AnswerQuestionDialog dialog = AnswerQuestionDialog.newInstance(mQuestion, mQuestionId);
+                dialog.show(getFragmentManager(), "answer_questions_dialog_fragment");
+            } else { // make the user login
+                LoginDialog login = new LoginDialog();
+                login.show(getFragmentManager(), "login_dialog_fragment");
+            }
+            return true;
         }
         return false;
+    }
+
+    private boolean isLoggedIn() {
+        ParseUser currentUser = ParseUser.getCurrentUser();
+        return (currentUser != null);
     }
 }

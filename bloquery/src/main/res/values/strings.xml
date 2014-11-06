@@ -9,6 +9,17 @@
     <string name="question_posted">Question Posted</string>
     <string name="answer_added">Answer added</string>
 
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="login">Login</string>
+    <string name="signup">Sign Up</string>
+
+    <string name="successful_login">Successfully Logged in</string>
+    <string name="no_such_user">No such user. Please sign up</string>
+    <string name="invalid_signup">Invalid username or password</string>
+    <string name="successful_signup">Successfully signed up, please log in.</string>
+    <string name="signup_error">Sign up Error</string>
+
     <string name="new_question_dialog">Query the community</string>
     <string name="sample">Sample:</string>
     <string name="sample_question">What is the air-speed velocity of an unladen swallow? </string>
