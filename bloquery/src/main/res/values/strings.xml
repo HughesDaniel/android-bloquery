@@ -7,6 +7,7 @@
     <string name="answer_hint">Enter your answer here</string>
 
     <string name="question_posted">Question Posted</string>
+    <string name="answer_added">Answer added</string>
 
     <string name="new_question_dialog">Query the community</string>
     <string name="sample">Sample:</string>

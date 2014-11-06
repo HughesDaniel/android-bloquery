@@ -97,8 +97,8 @@ public class AnswersFragment extends Fragment {
         super.onOptionsItemSelected(item);
         int id = item.getItemId();
         if (id == R.id.answer_bloquery) {
-            AnswerQuestionDialog dialog = AnswerQuestionDialog.newInstance(mQuestion);
-            dialog.show(getFragmentManager(), "answer_questions_dailog_fragment");
+            AnswerQuestionDialog dialog = AnswerQuestionDialog.newInstance(mQuestion, mQuestionId);
+            dialog.show(getFragmentManager(), "answer_questions_dialog_fragment");
         }
         return false;
     }

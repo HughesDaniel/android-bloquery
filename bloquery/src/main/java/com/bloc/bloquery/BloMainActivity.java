@@ -5,12 +5,12 @@ import android.app.FragmentManager;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import com.bloc.bloquery.fragments.AnswerQuestionDialog;
 import com.bloc.bloquery.fragments.AnswersFragment;
 import com.bloc.bloquery.fragments.AskQuestionDialog;
 import com.bloc.bloquery.fragments.QuestionsFragment;
+import com.bloc.bloquery.models.AnswerModelCenter;
 import com.bloc.bloquery.models.QuestionModelCenter;
 
 
@@ -58,7 +58,9 @@ public class BloMainActivity extends Activity implements AskQuestionDialog.AskQu
     }
 
     @Override
-    public void onAnswerQuestion(AnswerQuestionDialog answerQuestionDialog, String answer) {
-        Toast.makeText(this, "Coming Soon!", Toast.LENGTH_SHORT).show();
+    public void onAnswerQuestion(AnswerQuestionDialog answerQuestionDialog, String answer,
+                                 String questionId) {
+        AnswerModelCenter amc = new AnswerModelCenter(this);
+        amc.createAnswerToQuestion(answer, questionId);
     }
 }

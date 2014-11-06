@@ -20,22 +20,27 @@ import com.bloc.bloquery.R;
 public class AnswerQuestionDialog extends DialogFragment {
 
     public interface AnswerQuestionListener {
-        void onAnswerQuestion(AnswerQuestionDialog answerQuestionDialog, String answer);
+        void onAnswerQuestion(AnswerQuestionDialog answerQuestionDialog, String answer,
+                              String questionId);
     }
 
     private static final String TAG = ".AnswerQuestionDialog.java";
 
     private static final String KEY_QUESTION =
             "com.bloc.bloquery.fragments.AnswerQuestionDialog.key_question";
+    private static final String KEY_QUESTION_ID =
+            "com.bloc.bloquery.fragments.AnswerQuestionDialog.key_question_id";
 
     private String mQuestion;
+    private String mQuestionId;
     private EditText mEditText;
     private AnswerQuestionListener mListener;
 
-    public static AnswerQuestionDialog newInstance(String question) {
+    public static AnswerQuestionDialog newInstance(String question, String questionId) {
         AnswerQuestionDialog dialog = new AnswerQuestionDialog();
         Bundle args = new Bundle();
         args.putString(KEY_QUESTION, question);
+        args.putString(KEY_QUESTION_ID, questionId);
         dialog.setArguments(args);
 
         return dialog;
@@ -58,6 +63,7 @@ public class AnswerQuestionDialog extends DialogFragment {
     public void onCreate(Bundle bundle) {
         super.onCreate(bundle);
         mQuestion = getArguments().getString(KEY_QUESTION);
+        mQuestionId = getArguments().getString(KEY_QUESTION_ID);
     }
 
     @Override
@@ -75,7 +81,7 @@ public class AnswerQuestionDialog extends DialogFragment {
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == 0) {
                     mListener.onAnswerQuestion(AnswerQuestionDialog.this,
-                            mEditText.getText().toString());
+                            mEditText.getText().toString(), mQuestionId);
                     closeDialog();
                     return true;
                 }
