@@ -1,7 +1,10 @@
 package com.bloc.bloquery.models;
 
+import android.content.Context;
 import android.util.Log;
+import android.widget.Toast;
 
+import com.bloc.bloquery.R;
 import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
@@ -30,8 +33,10 @@ public class QuestionModelCenter {
     // array of our Question objects
     private static Map<String, Question> sQuestionHash = new HashMap<String, Question>();
 
-    public QuestionModelCenter() {
-        // our constructor
+    Context mContext;
+
+    public QuestionModelCenter(Context context) {
+        mContext = context;
     }
 
     // Called when a question is created, it is not on Parse, so will add it
@@ -93,6 +98,9 @@ public class QuestionModelCenter {
                             Question.getUpdatedAt()); // When it was updated
                     // add Question to our hashmap
                     sQuestionHash.put(Question.getObjectId(), q);
+                    // Toast user post was successful
+                    Toast.makeText(mContext, mContext.getString(R.string.question_posted),
+                            Toast.LENGTH_LONG).show();
                 } else {
                     // The save failed
                     Log.d(TAG, "Error in saving: " + e);

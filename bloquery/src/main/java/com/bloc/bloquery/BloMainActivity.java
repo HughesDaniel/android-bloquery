@@ -45,7 +45,7 @@ public class BloMainActivity extends Activity implements AskQuestionDialog.AskQu
 
     @Override
     public void onAskQuestion(AskQuestionDialog askQuestionDialog, String question) {
-        QuestionModelCenter qmc = new QuestionModelCenter();
+        QuestionModelCenter qmc = new QuestionModelCenter(this);
         qmc.createNewQuestion(question);
     }
 
