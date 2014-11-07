@@ -35,6 +35,7 @@
             android:id="@+id/iv_avatar_question_asker"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@drawable/avatar_generic"
             android:layout_marginLeft="150dp" />
 
     </LinearLayout>

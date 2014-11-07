@@ -15,6 +15,9 @@
     <string name="signup">Sign Up</string>
     <string name="logout">Log Out</string>
 
+    <string name="answers">answers</string>
+    <string name="votes">votes</string>
+
     <string name="successful_login">Successfully Logged in</string>
     <string name="no_such_user">No such user. Please sign up</string>
     <string name="invalid_signup">Invalid username or password</string>

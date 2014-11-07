@@ -18,8 +18,11 @@ public class QuestionsAdapter extends ParseQueryAdapter {
     private static final String PARSE_QUESTION = "theQuestion";
     private static final String PARSE_NUM_ANSWERS = "numberOfAnswers";
 
-    public QuestionsAdapter(Context context, String className) {
-        super(context, className);
+    private Context mContext;
+
+    public QuestionsAdapter(Context context, QueryFactory queryFactory) {
+        super(context, queryFactory);
+        mContext = context;
     }
 
     @Override
@@ -38,7 +41,8 @@ public class QuestionsAdapter extends ParseQueryAdapter {
         questionTextView.setText(object.getString(PARSE_QUESTION));
 
         TextView numberOfAnswersTextView = (TextView) cView.findViewById(R.id.tv_number_answers);
-        numberOfAnswersTextView.setText(String.valueOf(object.getInt(PARSE_NUM_ANSWERS)));
+        numberOfAnswersTextView.setText(String.valueOf(object.getInt(PARSE_NUM_ANSWERS)) + " "
+                            + mContext.getString(R.string.answers));
 
 
         return cView;

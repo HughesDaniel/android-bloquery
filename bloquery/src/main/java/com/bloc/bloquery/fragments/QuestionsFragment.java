@@ -17,6 +17,9 @@ import android.widget.ListView;
 
 import com.bloc.bloquery.R;
 import com.bloc.bloquery.adapters.QuestionsAdapter;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
+import com.parse.ParseQueryAdapter;
 import com.parse.ParseUser;
 
 /**
@@ -31,8 +34,10 @@ public class QuestionsFragment extends Fragment {
 
     private static final String TAG = ".QuestionsFragment.java";
 
+    // Parse cfields for Question class
     private static final String PARSE_CLASS = "Question";
     private static final String PARSE_QUESTION = "theQuestion";
+    private static final String PARSE_NUM_ANSWERS = "numberOfAnswers";
 
     private ListView mListView;
     private QuestionsAdapter mAdapter;
@@ -71,7 +76,16 @@ public class QuestionsFragment extends Fragment {
             }
         });
 
-        mAdapter = new QuestionsAdapter(getActivity(), PARSE_CLASS);
+        ParseQueryAdapter.QueryFactory<ParseObject> factory =
+                new ParseQueryAdapter.QueryFactory<ParseObject>() {
+                    public ParseQuery create() {
+                        ParseQuery query = new ParseQuery(PARSE_CLASS);
+                        query.orderByDescending(PARSE_NUM_ANSWERS);
+                        return query;
+                    }
+                };
+
+        mAdapter = new QuestionsAdapter(getActivity(), factory);
         mListView.setAdapter(mAdapter);
 
         return rootView;
@@ -103,10 +117,10 @@ public class QuestionsFragment extends Fragment {
         super.onOptionsItemSelected(item);
         int id = item.getItemId();
         if (id == R.id.new_bloquery) {
-            if (isLoggedIn()) {
+            if (isLoggedIn()) { // user logged in, let them ask question
                 AskQuestionDialog askQuestion = new AskQuestionDialog();
                 askQuestion.show(getFragmentManager(), "ask_question_dialog_fragment");
-            } else {
+            } else { // user not logged in, must log in before asking question
                 LoginDialog login = new LoginDialog();
                 login.show(getFragmentManager(), "login_dialog_fragment");
             }

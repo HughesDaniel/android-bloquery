@@ -17,9 +17,13 @@ public class AnswersAdapter extends ParseQueryAdapter{
 
     private static final String TAG = ".AnswersAdapter.java";
     private static final String PARSE_ANSWER = "theAnswer";
+    private static final String PARSE_NUM_UPVOTES = "numberOfUpVotes";
+
+    private Context mContext;
 
     public AnswersAdapter(Context context, QueryFactory queryFactory) {
         super(context, queryFactory);
+        mContext = context;
     }
 
     @Override
@@ -35,6 +39,10 @@ public class AnswersAdapter extends ParseQueryAdapter{
 
         TextView answerTextView = (TextView) cView.findViewById(R.id.tv_answer_body);
         answerTextView.setText(object.getString(PARSE_ANSWER));
+
+        TextView votesTextView = (TextView) cView.findViewById(R.id.tv_number_up_votes);
+        votesTextView.setText(object.getInt(PARSE_NUM_UPVOTES) + " " +
+                mContext.getString(R.string.votes));
 
         return cView;
     }

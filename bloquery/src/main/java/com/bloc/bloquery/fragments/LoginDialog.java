@@ -34,6 +34,8 @@ public class LoginDialog extends DialogFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
 
+        getDialog().setTitle("Login to BloQuery");
+
         View view = inflater.inflate(R.layout.dialog_login, container, false);
 
         mUserNameEditText = (EditText) view.findViewById(R.id.et_username);

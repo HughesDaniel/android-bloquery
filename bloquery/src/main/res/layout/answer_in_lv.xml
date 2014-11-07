@@ -20,6 +20,7 @@
             android:id="@+id/iv_answerer_id"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@drawable/avatar_generic"
             android:layout_margin="10dp" />
 
         <TextView
