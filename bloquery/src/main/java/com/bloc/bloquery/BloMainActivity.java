@@ -86,6 +86,7 @@ public class BloMainActivity extends Activity implements AskQuestionDialog.AskQu
         FragmentManager fragmentManager = getFragmentManager();
         fragmentManager.beginTransaction()
                 .replace(R.id.container, AnswersFragment.newInstance(id, question))
+                .addToBackStack(null)
                 .commit();
     }
 
