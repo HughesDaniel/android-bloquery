@@ -41,7 +41,7 @@ public class BloMainActivity extends Activity implements AskQuestionDialog.AskQu
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         super.onPrepareOptionsMenu(menu);
-
+        // checks if user is logged in or out, and displays appropriate menu title
         MenuItem loginstatus = menu.findItem(R.id.login_out_menu);
         if (ParseUser.getCurrentUser() == null) {
             loginstatus.setTitle(R.string.login);
@@ -57,15 +57,17 @@ public class BloMainActivity extends Activity implements AskQuestionDialog.AskQu
         super.onOptionsItemSelected(item);
         int id = item.getItemId();
         if (id == R.id.login_out_menu) {
-            if (isLoggedIn()) {
+            if (isLoggedIn()) { // user logged in, log them out
                 ParseUser.getCurrentUser().logOut();
-            } else {
+            } else { // user logged out, display login dialog
                 LoginDialog login = new LoginDialog();
                 login.show(getFragmentManager(), "login_dialog_fragment");
             }
+            return true;
         }
         return false;
     }
+
 
     private boolean isLoggedIn() {
         return (ParseUser.getCurrentUser() != null);
