@@ -95,7 +95,7 @@ public class QuestionsFragment extends Fragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.blo_query, menu);
+        inflater.inflate(R.menu.questions_menu, menu);
     }
 
     @Override

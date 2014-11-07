@@ -13,6 +13,7 @@
     <string name="password">Password</string>
     <string name="login">Login</string>
     <string name="signup">Sign Up</string>
+    <string name="logout">Log Out</string>
 
     <string name="successful_login">Successfully Logged in</string>
     <string name="no_such_user">No such user. Please sign up</string>

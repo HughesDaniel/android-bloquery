@@ -9,9 +9,11 @@ import android.view.MenuItem;
 import com.bloc.bloquery.fragments.AnswerQuestionDialog;
 import com.bloc.bloquery.fragments.AnswersFragment;
 import com.bloc.bloquery.fragments.AskQuestionDialog;
+import com.bloc.bloquery.fragments.LoginDialog;
 import com.bloc.bloquery.fragments.QuestionsFragment;
 import com.bloc.bloquery.models.AnswerModelCenter;
 import com.bloc.bloquery.models.QuestionModelCenter;
+import com.parse.ParseUser;
 
 
 public class BloMainActivity extends Activity implements AskQuestionDialog.AskQuestionListener,
@@ -32,13 +34,41 @@ public class BloMainActivity extends Activity implements AskQuestionDialog.AskQu
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        return false;
+        getMenuInflater().inflate(R.menu.bloquery_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        super.onPrepareOptionsMenu(menu);
+
+        MenuItem loginstatus = menu.findItem(R.id.login_out_menu);
+        if (ParseUser.getCurrentUser() == null) {
+            loginstatus.setTitle(R.string.login);
+        } else {
+            loginstatus.setTitle(R.string.logout);
+        }
+
+        return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         super.onOptionsItemSelected(item);
+        int id = item.getItemId();
+        if (id == R.id.login_out_menu) {
+            if (isLoggedIn()) {
+                ParseUser.getCurrentUser().logOut();
+            } else {
+                LoginDialog login = new LoginDialog();
+                login.show(getFragmentManager(), "login_dialog_fragment");
+            }
+        }
         return false;
+    }
+
+    private boolean isLoggedIn() {
+        return (ParseUser.getCurrentUser() != null);
     }
 
     // vvvvvvvvvvvvvvvvvvvvv callbacks vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv

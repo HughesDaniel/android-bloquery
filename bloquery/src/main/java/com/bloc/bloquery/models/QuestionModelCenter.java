@@ -109,15 +109,6 @@ public class QuestionModelCenter {
         });
     }
 
-
-
-
-
-
-
-
-
-
     private class Question {
 
         private static final String TAG = ".QuestionModel.java";
