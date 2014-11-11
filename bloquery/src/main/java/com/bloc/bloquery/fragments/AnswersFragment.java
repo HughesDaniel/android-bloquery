@@ -8,6 +8,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -32,19 +33,24 @@ public class AnswersFragment extends Fragment {
     // key to set and retrieve the question we store in the args for this fragment
     private static final String KEY_QUESTION =
             "com.bloc.bloquery.fragments.AnswersFragment.key_question";
+    // key to set and retriever the asker ID we store in the args for this fragment
+    private static final String KEY_ASKER_ID =
+            "com.bloc.bloquery.fragments.AnswerFragment.key_asker_id";
 
     // The unique ID of the Question that we will display the answers to
     private String mQuestionId;
     private String mQuestion;
+    private String mAskerId;
 
     private ListView mListView;
     private AnswersAdapter mAdapter;
 
-    public static AnswersFragment newInstance(String questionId, String question) {
+    public static AnswersFragment newInstance(String questionId, String question, String askerId) {
         AnswersFragment fragment = new AnswersFragment();
         Bundle args = new Bundle();
         args.putString(KEY_QUESTION_ID, questionId);
         args.putString(KEY_QUESTION, question);
+        args.putString(KEY_ASKER_ID, askerId);
         fragment.setArguments(args);
 
         return fragment;
@@ -56,6 +62,7 @@ public class AnswersFragment extends Fragment {
 
         mQuestionId = getArguments().getString(KEY_QUESTION_ID);
         mQuestion = getArguments().getString(KEY_QUESTION);
+        mAskerId = getArguments().getString(KEY_ASKER_ID);
 
         setHasOptionsMenu(true);
     }
@@ -68,6 +75,11 @@ public class AnswersFragment extends Fragment {
                 container, false);
         TextView questionTextView = (TextView) rootView.findViewById(R.id.tv_answer_in_lv_footer);
         questionTextView.setText(mQuestion);
+
+        ImageView askerIdImageView = (ImageView) rootView.findViewById(R.id.iv_answerer_id_in_lv_footer);
+        //TODO: this is where users avatar will need to get set
+        
+
 
         mListView = (ListView) rootView.findViewById(R.id.lv_answers);
 

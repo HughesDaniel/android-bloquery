@@ -29,7 +29,7 @@ import com.parse.ParseUser;
 public class QuestionsFragment extends Fragment {
 
     public static interface QuestionFragmentCallback {
-        void onQuestionItemSelected(String id, String question);
+        void onQuestionItemSelected(String id, String question, String askerId);
     }
 
     private static final String TAG = ".QuestionsFragment.java";
@@ -38,6 +38,7 @@ public class QuestionsFragment extends Fragment {
     private static final String PARSE_CLASS = "Question";
     private static final String PARSE_QUESTION = "theQuestion";
     private static final String PARSE_NUM_ANSWERS = "numberOfAnswers";
+    private static final String PARSE_QUESTION_ASKER = "questionAsker";
 
     private ListView mListView;
     private QuestionsAdapter mAdapter;
@@ -100,10 +101,14 @@ public class QuestionsFragment extends Fragment {
     }
 
     private void selectItem(int position) {
-        // the unique ID of the question that was selected
-        String id = mAdapter.getItem(position).getObjectId();
-        String question = mAdapter.getItem(position).getString(PARSE_QUESTION);
-        mCallBack.onQuestionItemSelected(id, question);
+        // the object that was selected
+        ParseObject object = mAdapter.getItem(position);
+        // properties of that object
+        String id = object.getObjectId();
+        String question = object.getString(PARSE_QUESTION);
+        String askerId = object.getString(PARSE_QUESTION_ASKER);
+
+        mCallBack.onQuestionItemSelected(id, question, askerId);
     }
 
     @Override

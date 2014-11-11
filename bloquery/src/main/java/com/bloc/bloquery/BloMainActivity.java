@@ -82,10 +82,10 @@ public class BloMainActivity extends Activity implements AskQuestionDialog.AskQu
     }
 
     @Override
-    public void onQuestionItemSelected(String id, String question) {
+    public void onQuestionItemSelected(String id, String question, String askeerId) {
         FragmentManager fragmentManager = getFragmentManager();
         fragmentManager.beginTransaction()
-                .replace(R.id.container, AnswersFragment.newInstance(id, question))
+                .replace(R.id.container, AnswersFragment.newInstance(id, question, askeerId))
                 .addToBackStack(null)
                 .commit();
     }
