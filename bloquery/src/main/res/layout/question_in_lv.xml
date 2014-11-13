@@ -45,7 +45,6 @@
         android:layout_alignBottom="@+id/iv_avatar_question_asker"
         android:layout_toRightOf="@+id/tv_number_answers"
         android:layout_toEndOf="@+id/tv_number_answers"
-        android:background="@drawable/single_bolt"
         android:layout_marginLeft="25dp" />
 
     <ImageView
