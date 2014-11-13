@@ -13,6 +13,7 @@
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="fill_parent"
+        android:background="@android:color/holo_green_dark"
         android:layout_height="0dp"
         android:layout_weight=".2">
 
@@ -21,17 +22,38 @@
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:text="Place Holder"
-            android:background="@android:color/holo_green_light"
-            android:layout_margin="15dp"
+            android:padding="5dp"
+            android:background="@drawable/rounded_corners"
+            android:layout_marginBottom="15dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginLeft="15dp"
             android:layout_weight=".8" />
 
-        <ImageView
-            android:id="@+id/iv_answerer_id_in_lv_footer"
+        <RelativeLayout
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight=".2"
-            android:layout_margin="15dp"
-            android:background="@drawable/avatar_generic"/>
+            android:layout_height="match_parent"
+            android:layout_weight=".2">
+
+
+            <ImageView
+                android:id="@+id/iv_answerer_id_in_lv_footer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:background="@drawable/avatar_generic_small"
+                android:layout_margin="10dp" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/imageView"
+                android:layout_centerVertical="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:background="@drawable/quote_arrow_left"/>
+        </RelativeLayout>
 
     </LinearLayout>
 

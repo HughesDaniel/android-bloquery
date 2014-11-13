@@ -19,7 +19,7 @@
             android:id="@+id/iv_avatar_question_asker_in_answer_dialog"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/avatar_generic"
+            android:background="@drawable/avatar_generic_small"
             android:layout_marginLeft="100dp" />
     </LinearLayout>
 
@@ -41,7 +41,7 @@
             android:id="@+id/iv_avatar_user_answer_dialog"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/avatar_generic"
+            android:background="@drawable/avatar_generic_small"
             android:layout_marginLeft="50dp" />
     </LinearLayout>
 </LinearLayout>

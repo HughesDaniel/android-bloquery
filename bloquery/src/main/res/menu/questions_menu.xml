@@ -3,7 +3,7 @@
 
     <item
         android:id="@+id/new_bloquery"
-        android:icon="@android:drawable/ic_menu_add"
+        android:icon="@drawable/ic_question_add"
         android:title="@string/new_bloquery"
         android:showAsAction="always"/>
 </menu>

@@ -29,6 +29,7 @@ public class QuestionModelCenter {
     private static final String PARSE_QUESTION_ASKER = "questionAsker";
     private static final String PARSE_NUM_ANSWERS = "numberOfAnswers";
     private static final String PARSE_QUESTION_ANSWERS = "answers";
+    private static final String PARSE_QUESTION_CREATED_BY = "createdBy";
 
     // array of our Question objects
     private static Map<String, Question> sQuestionHash = new HashMap<String, Question>();
@@ -84,6 +85,8 @@ public class QuestionModelCenter {
         Question.put(PARSE_QUESTION, question);
         Question.put(PARSE_QUESTION_ASKER, userId);
         Question.put(PARSE_NUM_ANSWERS, 0);
+        //TODO: add below to the Question class
+        Question.put(PARSE_QUESTION_CREATED_BY, ParseUser.getCurrentUser().getUsername());
 
         Question.saveInBackground(new SaveCallback() {
             @Override

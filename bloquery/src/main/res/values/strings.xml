@@ -5,6 +5,7 @@
     <string name="new_bloquery">New BloQuery</string>
     <string name="answer_bloquery">Answer BloQuery</string>
     <string name="answer_hint">Enter your answer here</string>
+    <string name="asks">asks...</string>
 
     <string name="question_posted">Question Posted</string>
     <string name="answer_added">Answer added</string>
@@ -27,6 +28,10 @@
     <string name="new_question_dialog">Query the community</string>
     <string name="sample">Sample:</string>
     <string name="sample_question">What is the air-speed velocity of an unladen swallow? </string>
+
+    <string name="really_long">this string is really long. I am going to use it for testing
+    stuff where I want to see how things look when I have wrap around. For instance if I ask
+    a really lonq question. What will my text view look like?</string>
 
     <string name="parse_app_id">s6IuCKET7FLnSFBAo8TbNZQdD6hqCB4xNbImk9YF</string>
     <string name="parse_client_key">AslQuPYBNquLYjXJaLHg3328WAhITQ2jJbi6N4BM</string>

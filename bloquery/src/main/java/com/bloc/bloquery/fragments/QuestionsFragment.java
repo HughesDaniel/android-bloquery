@@ -3,7 +3,6 @@ package com.bloc.bloquery.fragments;
 import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -29,16 +28,18 @@ import com.parse.ParseUser;
 public class QuestionsFragment extends Fragment {
 
     public static interface QuestionFragmentCallback {
-        void onQuestionItemSelected(String id, String question, String askerId);
+        void onQuestionItemSelected(String id, String question, String askerId,
+                                    String askerUsername);
     }
 
     private static final String TAG = ".QuestionsFragment.java";
 
-    // Parse cfields for Question class
+    // Parse fields for Question class
     private static final String PARSE_CLASS = "Question";
     private static final String PARSE_QUESTION = "theQuestion";
     private static final String PARSE_NUM_ANSWERS = "numberOfAnswers";
     private static final String PARSE_QUESTION_ASKER = "questionAsker";
+    private static final String PARSE_QUESTION_CREATED_BY = "createdBy";
 
     private ListView mListView;
     private QuestionsAdapter mAdapter;
@@ -95,8 +96,9 @@ public class QuestionsFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        Log.d(TAG, "Entering onResume()");
-        mAdapter.notifyDataSetChanged();
+        // set title back to "BloQuery"
+        getActivity().setTitle(R.string.app_name);
+
 
     }
 
@@ -107,8 +109,9 @@ public class QuestionsFragment extends Fragment {
         String id = object.getObjectId();
         String question = object.getString(PARSE_QUESTION);
         String askerId = object.getString(PARSE_QUESTION_ASKER);
+        String askerUsername = object.getString(PARSE_QUESTION_CREATED_BY);
 
-        mCallBack.onQuestionItemSelected(id, question, askerId);
+        mCallBack.onQuestionItemSelected(id, question, askerId, askerUsername);
     }
 
     @Override

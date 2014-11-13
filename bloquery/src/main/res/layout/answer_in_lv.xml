@@ -1,45 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
 
     <TextView
         android:id="@+id/tv_answer_body"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@android:color/holo_green_light"
-        android:text="Placeholder" />
+        android:text="@string/really_long"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="5dp"
+        android:paddingLeft="5dp"
+        android:paddingTop="5dp"
+        android:paddingBottom="10dp"
+        android:background="@drawable/rounded_corners" />
 
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent">
+    <ImageView
+        android:id="@+id/iv_quote_top_answer_in_lv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/quote_arrow_top"
+        android:layout_below="@+id/tv_answer_body"
+        android:layout_alignLeft="@+id/tv_answer_body"
+        android:layout_alignStart="@+id/tv_answer_body"
+        android:layout_marginLeft="15dp" />
 
-        <ImageView
-            android:id="@+id/iv_answerer_id"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/avatar_generic"
-            android:layout_margin="10dp" />
+    <ImageView
+        android:id="@+id/iv_answerer_id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/avatar_generic_small"
+        android:layout_below="@+id/iv_quote_top_answer_in_lv"
+        android:layout_alignLeft="@+id/tv_answer_body"
+        android:layout_alignStart="@+id/tv_answer_body"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="5dp"/>
 
-        <TextView
-            android:id="@+id/tv_number_up_votes"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="placeholder"
-            android:layout_marginRight="150dp" />
+    <TextView
+        android:id="@+id/tv_number_up_votes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="New Text"
+        android:layout_alignBottom="@+id/iv_answerer_id"
+        android:layout_toRightOf="@+id/iv_answerer_id"
+        android:layout_toEndOf="@+id/iv_answerer_id"
+        android:layout_marginLeft="28dp"
+        android:layout_marginBottom="16dp" />
 
-        <ImageButton
-            android:id="@+id/ib_is_upvoted"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+    <ImageButton
+        android:id="@+id/ib_is_upvoted"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/thumbs_up"
+        android:layout_marginRight="22dp"
+        android:layout_alignTop="@+id/iv_answerer_id"
+        android:layout_alignRight="@+id/tv_answer_body"
+        android:layout_alignEnd="@+id/tv_answer_body" />
 
-        <ImageButton
-            android:id="@+id/ib_answer_three_buttons"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
 
-    </LinearLayout>
-
-</LinearLayout>
+</RelativeLayout>
