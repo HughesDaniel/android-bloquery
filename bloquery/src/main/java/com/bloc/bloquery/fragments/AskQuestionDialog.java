@@ -1,12 +1,14 @@
 package com.bloc.bloquery.fragments;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.app.DialogFragment;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -47,7 +49,6 @@ public class AskQuestionDialog extends DialogFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.dialog_ask_question, container, false);
-        getDialog().setTitle(R.string.new_question_dialog);
 
         mEditText = (EditText) view.findViewById(R.id.et_new_question);
         mEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -67,6 +68,13 @@ public class AskQuestionDialog extends DialogFragment {
 
 
         return view;
+    }
+
+    @Override
+    public Dialog onCreateDialog(Bundle savedInstanceState) {
+        Dialog dialog = super.onCreateDialog(savedInstanceState);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        return dialog;
     }
 
     // helper method that closes the dialog
