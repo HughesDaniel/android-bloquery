@@ -18,7 +18,7 @@
         android:layout_weight=".2">
 
         <TextView
-            android:id="@+id/tv_answer_in_lv_footer"
+            android:id="@+id/tv_question_in_answer_dialog"
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:text="Place Holder"
@@ -36,7 +36,7 @@
 
 
             <ImageView
-                android:id="@+id/iv_answerer_id_in_lv_footer"
+                android:id="@+id/iv_avatar_question_asker_in_answer_dialog"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"

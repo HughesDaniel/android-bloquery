@@ -83,10 +83,10 @@ public class AnswersFragment extends Fragment {
 
         LinearLayout rootView = (LinearLayout) inflater.inflate(R.layout.answers_listview,
                 container, false);
-        TextView questionTextView = (TextView) rootView.findViewById(R.id.tv_answer_in_lv_footer);
+        TextView questionTextView = (TextView) rootView.findViewById(R.id.tv_question_in_answer_dialog);
         questionTextView.setText(mQuestion);
 
-        ImageView askerIdImageView = (ImageView) rootView.findViewById(R.id.iv_answerer_id_in_lv_footer);
+        ImageView askerIdImageView = (ImageView) rootView.findViewById(R.id.iv_avatar_question_asker_in_answer_dialog);
         //TODO: this is where users avatar will need to get set
 
 
