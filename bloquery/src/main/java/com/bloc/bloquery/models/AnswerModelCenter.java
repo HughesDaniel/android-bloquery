@@ -10,8 +10,11 @@ import com.parse.ParseObject;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -27,6 +30,7 @@ public class AnswerModelCenter {
     private static final String PARSE_ANSWERER = "answerer";
     private static final String PARSE_PARENT = "parent";
     private static final String PARSE_NUM_UPVOTES = "numberOfUpVotes";
+    private static final String PARSE_UP_VOTERS = "upVoters";
     // column field for Parse Question, used to increment field when asnwer is added
     private static final String PARSE_NUM_ANSWERS = "numberOfAnswers";
 
@@ -52,6 +56,7 @@ public class AnswerModelCenter {
         Answer.put(PARSE_ANSWERER, userId);
         Answer.put(PARSE_PARENT, parent);
         Answer.put(PARSE_NUM_UPVOTES, 0); // 0 as its new so cant have been upvoted
+        Answer.add(PARSE_UP_VOTERS, null);
 
         Answer.saveInBackground(new SaveCallback() {
             @Override
@@ -82,6 +87,20 @@ public class AnswerModelCenter {
         Parent.saveInBackground();
     }
 
+    // Adds username to the "upVoters" array for the answer, and increments the number of upvotes
+    public void addUpVoterToAnswer(ParseObject Answer, String userName) {
+        Answer.addUnique(PARSE_UP_VOTERS, userName);
+        Answer.increment(PARSE_NUM_UPVOTES);
+        Answer.saveInBackground();
+    }
+
+    // Removes username from the array of upvotes, and decrements the number of upvotes
+    public void removeUpVoterFromAnswer(ParseObject Answer, String userName) {
+        Answer.removeAll(PARSE_UP_VOTERS, Arrays.asList(userName));
+        Answer.increment(PARSE_NUM_UPVOTES, -1);
+        Answer.saveInBackground();
+    }
+
 
     private class Answer {
 
@@ -90,6 +109,7 @@ public class AnswerModelCenter {
         private ParseUser mAnswerer;
         private ParseObject mParent;
         private int mNumUpVotes;
+        private List<String> mUpVoters; // Not a param in constructor because it starts empty
         private Date mCreatedAt;
         private Date mUpdatedAt;
 
@@ -101,6 +121,7 @@ public class AnswerModelCenter {
             mAnswerer = answerer;
             mParent = parent;
             mNumUpVotes = numUpVotes;
+            mUpVoters = new ArrayList<String>();
             mCreatedAt = createdAt;
             mUpdatedAt = updatedAt;
 
@@ -124,6 +145,10 @@ public class AnswerModelCenter {
 
         public int getNumUpVotes() {
             return mNumUpVotes;
+        }
+
+        public List getUpVoters() {
+            return mUpVoters;
         }
 
         public Date getCreatedAt() {

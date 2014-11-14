@@ -18,6 +18,7 @@
 
     <string name="answers">answers</string>
     <string name="votes">votes</string>
+    <string name="login_vote">Please login to vote</string>
 
     <string name="successful_login">Successfully Logged in</string>
     <string name="no_such_user">No such user. Please sign up</string>
