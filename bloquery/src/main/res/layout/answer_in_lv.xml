@@ -34,7 +34,6 @@
         android:id="@+id/iv_answerer_avatar_in_lv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/avatar_generic_small"
         android:layout_below="@+id/iv_quote_top_answer_in_lv"
         android:layout_alignLeft="@+id/tv_answer_body"
         android:layout_alignStart="@+id/tv_answer_body"
