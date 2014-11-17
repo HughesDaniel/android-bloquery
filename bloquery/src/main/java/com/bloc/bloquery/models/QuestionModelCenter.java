@@ -7,6 +7,7 @@ import android.widget.Toast;
 import com.bloc.bloquery.R;
 import com.parse.GetCallback;
 import com.parse.ParseException;
+import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
@@ -30,6 +31,8 @@ public class QuestionModelCenter {
     private static final String PARSE_NUM_ANSWERS = "numberOfAnswers";
     private static final String PARSE_QUESTION_ANSWERS = "answers";
     private static final String PARSE_QUESTION_CREATED_BY = "createdBy";
+    private static final String PARSE_ASKER_AVATAR = "askerAvatar";
+    private static final String PARSE_USER_AVATAR = "avatar";
 
     // array of our Question objects
     private static Map<String, Question> sQuestionHash = new HashMap<String, Question>();
@@ -43,9 +46,9 @@ public class QuestionModelCenter {
     // Called when a question is created, it is not on Parse, so will add it
     public void createNewQuestion(String question) {
         // Id of the current logged in user
-        ParseUser userId = ParseUser.getCurrentUser();
+        ParseUser parseUser = ParseUser.getCurrentUser();
         // add the question to Parse
-        addQuestionToParse(question, userId);
+        addQuestionToParse(question, parseUser);
     }
 
     // called to create a model of a question that already exists on Parse
@@ -60,6 +63,7 @@ public class QuestionModelCenter {
                     Question q = new Question(questionId, // unique ID of question
                             object.getString(PARSE_QUESTION), // the question
                             object.getParseUser(PARSE_QUESTION_ASKER), // the ID of the asker
+                            object.getParseFile(PARSE_ASKER_AVATAR), // asker's avatar
                             object.getInt(PARSE_NUM_ANSWERS), // Number of answers
                             object.getCreatedAt(), // when question was created
                             object.getUpdatedAt()); // when the last time it was updated
@@ -80,13 +84,22 @@ public class QuestionModelCenter {
     }
 
     // helper method that adds the Question to Parse and creates a Question Model in the callback
-    private void addQuestionToParse(final String question, final ParseUser userId) {
+    private void addQuestionToParse(final String question, final ParseUser parseUser) {
         final ParseObject Question = new ParseObject(PARSE_CLASS);
         Question.put(PARSE_QUESTION, question);
-        Question.put(PARSE_QUESTION_ASKER, userId);
+        Question.put(PARSE_QUESTION_ASKER, parseUser);
         Question.put(PARSE_NUM_ANSWERS, 0);
-        //TODO: add below to the Question class
-        Question.put(PARSE_QUESTION_CREATED_BY, ParseUser.getCurrentUser().getUsername());
+        Question.put(PARSE_QUESTION_CREATED_BY, parseUser.getUsername());
+
+        try {
+            parseUser.fetch();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        //TODO hard code string
+        final ParseFile askerAvatar = parseUser.getParseFile(PARSE_USER_AVATAR);
+        Question.put(PARSE_ASKER_AVATAR, askerAvatar);
+
 
         Question.saveInBackground(new SaveCallback() {
             @Override
@@ -95,7 +108,8 @@ public class QuestionModelCenter {
                     // create Question model
                     Question q = new Question(Question.getObjectId(), // unique ID of question
                             question, // the question
-                            userId, // the Id of the asker
+                            parseUser, // the Id of the asker
+                            askerAvatar, // the avatar of the asker
                             0, // Zero because its just being created so hasn't been answered
                             Question.getCreatedAt(), // When it was created
                             Question.getUpdatedAt()); // When it was updated
@@ -123,12 +137,14 @@ public class QuestionModelCenter {
         private int mNumberOfAnswers;
         private Date mCreatedAt;
         private Date mUpdatedAt;
+        private ParseFile mAskerAvatar;
 
-        public Question( String questionId, String question, ParseUser askerId, int numberOfAnwers,
-                         Date created, Date updated) {
+        public Question( String questionId, String question, ParseUser askerId, ParseFile askerAvatar,
+                         int numberOfAnwers, Date created, Date updated) {
             mQuestion = question;
             mQuestionId = questionId;
             mAskerId = askerId;
+            mAskerAvatar = askerAvatar;
             mNumberOfAnswers = numberOfAnwers;
             mCreatedAt = created;
             mUpdatedAt = updated;
@@ -144,6 +160,10 @@ public class QuestionModelCenter {
 
         public ParseUser getAskerId() {
             return mAskerId;
+        }
+
+        public ParseFile getAskerAvatar() {
+            return mAskerAvatar;
         }
 
         public int getNumberOfAnswers() {

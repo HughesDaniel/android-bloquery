@@ -56,8 +56,7 @@
         android:layout_toStartOf="@+id/iv_questionmark_bottom"
         android:layout_marginRight="10dp"
         android:layout_marginTop="10dp"
-        android:layout_marginBottom="5dp"
-        android:background="@drawable/avatar_generic_small"/>
+        android:layout_marginBottom="5dp"/>
 
 
 </RelativeLayout>

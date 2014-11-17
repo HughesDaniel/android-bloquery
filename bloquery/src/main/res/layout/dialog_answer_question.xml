@@ -35,7 +35,6 @@
                 android:layout_centerVertical="true"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true"
-                android:background="@drawable/avatar_generic_small"
                 android:layout_margin="10dp" />
 
             <ImageView
@@ -84,7 +83,6 @@
                 android:layout_centerVertical="true"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true"
-                android:background="@drawable/avatar_generic_small"
                 android:layout_margin="10dp" />
 
             <ImageView

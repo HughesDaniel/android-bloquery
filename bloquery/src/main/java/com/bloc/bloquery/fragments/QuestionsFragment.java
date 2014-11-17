@@ -3,6 +3,7 @@ package com.bloc.bloquery.fragments;
 import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -16,6 +17,7 @@ import android.widget.ListView;
 
 import com.bloc.bloquery.R;
 import com.bloc.bloquery.adapters.QuestionsAdapter;
+import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseQueryAdapter;
@@ -29,7 +31,7 @@ public class QuestionsFragment extends Fragment {
 
     public static interface QuestionFragmentCallback {
         void onQuestionItemSelected(String id, String question, String askerId,
-                                    String askerUsername);
+                                    String askerUsername, byte[] avatar);
     }
 
     private static final String TAG = ".QuestionsFragment.java";
@@ -40,6 +42,7 @@ public class QuestionsFragment extends Fragment {
     private static final String PARSE_NUM_ANSWERS = "numberOfAnswers";
     private static final String PARSE_QUESTION_ASKER = "questionAsker";
     private static final String PARSE_QUESTION_CREATED_BY = "createdBy";
+    private static final String PARSE_UPDATED_AT = "updatedAt";
 
     private ListView mListView;
     private QuestionsAdapter mAdapter;
@@ -82,7 +85,7 @@ public class QuestionsFragment extends Fragment {
                 new ParseQueryAdapter.QueryFactory<ParseObject>() {
                     public ParseQuery create() {
                         ParseQuery query = new ParseQuery(PARSE_CLASS);
-                        query.orderByDescending(PARSE_NUM_ANSWERS);
+                        query.orderByDescending(PARSE_UPDATED_AT);
                         return query;
                     }
                 };
@@ -110,8 +113,9 @@ public class QuestionsFragment extends Fragment {
         String question = object.getString(PARSE_QUESTION);
         String askerId = object.getString(PARSE_QUESTION_ASKER);
         String askerUsername = object.getString(PARSE_QUESTION_CREATED_BY);
+        byte[] avatar = convertParseFile(object);
 
-        mCallBack.onQuestionItemSelected(id, question, askerId, askerUsername);
+        mCallBack.onQuestionItemSelected(id, question, askerId, askerUsername, avatar);
     }
 
     @Override
@@ -140,5 +144,16 @@ public class QuestionsFragment extends Fragment {
     private boolean isLoggedIn() {
         ParseUser currentUser = ParseUser.getCurrentUser();
         return (currentUser != null);
+    }
+
+    private byte[] convertParseFile(ParseObject object) {
+        byte[] avatar = null;
+        try {
+            avatar = object.getParseFile("askerAvatar").getData();
+        } catch (ParseException e) {
+            Log.d(TAG, "ParseException");
+            e.printStackTrace();
+        }
+        return avatar;
     }
 }

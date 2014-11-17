@@ -6,6 +6,7 @@ import android.widget.Toast;
 
 import com.bloc.bloquery.R;
 import com.parse.ParseException;
+import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
@@ -33,6 +34,9 @@ public class AnswerModelCenter {
     private static final String PARSE_UP_VOTERS = "upVoters";
     // column field for Parse Question, used to increment field when asnwer is added
     private static final String PARSE_NUM_ANSWERS = "numberOfAnswers";
+    private static final String PARSE_ANSWERER_AVATAR = "answererAvatar";
+    // column field accessed by User class
+    private static final String PARSE_USER_AVATAR = "avatar";
 
     private Context mContext;
     private static Map<String, Answer> sAnswerMap = new HashMap<String, Answer>();
@@ -43,20 +47,32 @@ public class AnswerModelCenter {
 
     // called when an answer is given for the the first time
     public void createAnswerToQuestion(String answer, String questionId) {
-        ParseUser userId = ParseUser.getCurrentUser();
+        ParseUser parseUser = ParseUser.getCurrentUser();
         // the parent question
         ParseObject Parent = ParseObject.createWithoutData("Question", questionId);
-        addAnswerToParse(answer, userId, Parent);
+        addAnswerToParse(answer, parseUser, Parent);
         incrementQuestionNumAnswers(Parent);
     }
 
-    private void addAnswerToParse(final String answer, final ParseUser userId, final ParseObject parent) {
+    private void addAnswerToParse(final String answer, final ParseUser parseUser, final ParseObject parent) {
         final ParseObject Answer = new ParseObject(PARSE_CLASS);
         Answer.put(PARSE_ANSWER, answer);
-        Answer.put(PARSE_ANSWERER, userId);
+        Answer.put(PARSE_ANSWERER, parseUser);
         Answer.put(PARSE_PARENT, parent);
         Answer.put(PARSE_NUM_UPVOTES, 0); // 0 as its new so cant have been upvoted
         Answer.add(PARSE_UP_VOTERS, null);
+
+        // fetch all the data for user so we can access the stored avatar file
+        try {
+            parseUser.fetch();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        final ParseFile avatarFile = parseUser.getParseFile(PARSE_USER_AVATAR);
+        Answer.put(PARSE_ANSWERER_AVATAR, avatarFile);
+
+
 
         Answer.saveInBackground(new SaveCallback() {
             @Override
@@ -64,7 +80,8 @@ public class AnswerModelCenter {
                 if (e == null) {
                     Answer a = new Answer(Answer.getObjectId(), // unique Id of Parse Answer Obj
                             answer, // the textual answer
-                            userId, // the Parse user
+                            parseUser, // the Parse user
+                            avatarFile,
                             parent, // the Parse Question answer is pointing to
                             0, // number of upvotes
                             Answer.getCreatedAt(),
@@ -107,18 +124,20 @@ public class AnswerModelCenter {
         private String mAnswerId;
         private String mAnswer;
         private ParseUser mAnswerer;
+        private ParseFile mAnswererAvatar;
         private ParseObject mParent;
         private int mNumUpVotes;
         private List<String> mUpVoters; // Not a param in constructor because it starts empty
         private Date mCreatedAt;
         private Date mUpdatedAt;
 
-        public Answer(String answerId, String answer, ParseUser answerer, ParseObject parent,
-                      int numUpVotes, Date createdAt, Date updatedAt) {
+        public Answer(String answerId, String answer, ParseUser answerer, ParseFile avatar,
+                      ParseObject parent, int numUpVotes, Date createdAt, Date updatedAt) {
 
             mAnswerId = answerId;
             mAnswer = answer;
             mAnswerer = answerer;
+            mAnswererAvatar = avatar;
             mParent = parent;
             mNumUpVotes = numUpVotes;
             mUpVoters = new ArrayList<String>();
@@ -137,6 +156,10 @@ public class AnswerModelCenter {
 
         public ParseUser getAnswerer() {
             return mAnswerer;
+        }
+
+        public ParseFile getAnswererAvatar() {
+            return mAnswererAvatar;
         }
 
         public ParseObject getParent() {

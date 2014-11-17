@@ -1,6 +1,8 @@
 package com.bloc.bloquery.adapters;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.util.Log;
@@ -8,11 +10,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bloc.bloquery.R;
 import com.bloc.bloquery.models.AnswerModelCenter;
+import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQueryAdapter;
 import com.parse.ParseUser;
@@ -28,6 +32,7 @@ public class AnswersAdapter extends ParseQueryAdapter{
     private static final String PARSE_ANSWER = "theAnswer";
     private static final String PARSE_NUM_UPVOTES = "numberOfUpVotes";
     private static final String PARSE_UP_VOTERS = "upVoters";
+    private static final String PARSE_ANSWERER_AVATAR = "answererAvatar";
 
     private Context mContext;
     private String mUserName;
@@ -69,6 +74,15 @@ public class AnswersAdapter extends ParseQueryAdapter{
         TextView answerTextView = (TextView) cView.findViewById(R.id.tv_answer_body);
         answerTextView.setText(object.getString(PARSE_ANSWER));
 
+        ImageView answererAvatar = (ImageView) cView.findViewById(R.id.iv_answerer_avatar_in_lv);
+        try {
+            Bitmap avatar = decodeBitmap(object.getParseFile(PARSE_ANSWERER_AVATAR).getData());
+            answererAvatar.setImageBitmap(avatar);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+
         // Displays number of upvotes
         final TextView votesTextView = (TextView) cView.findViewById(R.id.tv_number_up_votes);
         votesTextView.setText(numUpVotes + mVotesString);
@@ -85,7 +99,6 @@ public class AnswersAdapter extends ParseQueryAdapter{
                     if (isCheckMarkDisplayed(upVoteButton)) {
                         downVote(object, upVoteButton, votesTextView, numUpVotes);
                     } else {
-                        Log.d(TAG, "Doing Something");
                         upVote(object, upVoteButton, votesTextView, numUpVotes);
                     }
                 } else { // user not logged in, so cant vote
@@ -141,6 +154,13 @@ public class AnswersAdapter extends ParseQueryAdapter{
         setToCheckMark(upVoteButton, false);
         tv.setText((numUpVotes - 1) + mVotesString);
         mAMC.removeUpVoterFromAnswer(Answer, mUserName);
+    }
+
+    private Bitmap decodeBitmap(byte[] file) {
+        int length = file.length;
+        Bitmap bitmap = BitmapFactory.decodeByteArray(file, 0, length);
+
+        return bitmap;
     }
 
 }
