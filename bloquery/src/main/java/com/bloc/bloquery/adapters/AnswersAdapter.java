@@ -1,19 +1,19 @@
 package com.bloc.bloquery.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bloc.bloquery.ProfileActivity;
 import com.bloc.bloquery.R;
 import com.bloc.bloquery.models.AnswerModelCenter;
 import com.parse.ParseException;
@@ -74,13 +74,35 @@ public class AnswersAdapter extends ParseQueryAdapter{
         TextView answerTextView = (TextView) cView.findViewById(R.id.tv_answer_body);
         answerTextView.setText(object.getString(PARSE_ANSWER));
 
-        ImageView answererAvatar = (ImageView) cView.findViewById(R.id.iv_answerer_avatar_in_lv);
+        ImageButton answererAvatar = (ImageButton) cView.findViewById(R.id.iv_answerer_avatar_in_lv);
+        // sets the image to the avatar of the asker
         try {
             Bitmap avatar = decodeBitmap(object.getParseFile(PARSE_ANSWERER_AVATAR).getData());
             answererAvatar.setImageBitmap(avatar);
         } catch (ParseException e) {
             e.printStackTrace();
         }
+
+        answererAvatar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(mContext, ProfileActivity.class);
+                ParseUser user = object.getParseUser("answerer");
+                try {
+                    user.fetch();
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                i.putExtra("username", user.getUsername());
+                i.putExtra("description", user.getString("description"));
+                try {
+                    i.putExtra("avatar", user.getParseFile("avatar").getData());
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                mContext.startActivity(i);
+            }
+        });
 
 
         // Displays number of upvotes

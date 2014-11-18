@@ -1,22 +1,25 @@
 package com.bloc.bloquery.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bloc.bloquery.ProfileActivity;
 import com.bloc.bloquery.R;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseQueryAdapter;
+import com.parse.ParseUser;
 
 /**
  * Created by Daniel on 11/4/2014.
@@ -37,7 +40,7 @@ public class QuestionsAdapter extends ParseQueryAdapter {
     }
 
     @Override
-    public View getItemView(ParseObject object, View v, ViewGroup parent) {
+    public View getItemView(final ParseObject object, View v, ViewGroup parent) {
         super.getItemView(object, v, parent);
 
         int numberAnswers = object.getInt(PARSE_NUM_ANSWERS);
@@ -61,14 +64,34 @@ public class QuestionsAdapter extends ParseQueryAdapter {
         ImageView interestIndicator = (ImageView) cView.findViewById(R.id.iv_interest_indicator);
         setInterestIndicator(interestIndicator, numberAnswers);
 
-        ImageView askerAvatarImageView = (ImageView) cView.findViewById(R.id.iv_avatar_question_asker);
+        ImageButton askerAvatarImageButton = (ImageButton) cView.findViewById(R.id.ib_avatar_question_asker);
         ParseFile avatar = object.getParseFile(PARSE_ASKER_AVATAR);
         try {
             byte[] avatarByte = avatar.getData();
-            askerAvatarImageView.setImageBitmap(decodeBitmap(avatarByte));
+            askerAvatarImageButton.setImageBitmap(decodeBitmap(avatarByte));
         } catch (ParseException e) {
             e.printStackTrace();
         }
+        askerAvatarImageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(mContext, ProfileActivity.class);
+                ParseUser user = object.getParseUser("questionAsker");
+                try {
+                    user.fetch();
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                i.putExtra("username", user.getUsername());
+                i.putExtra("description", user.getString("description"));
+                try {
+                    i.putExtra("avatar", user.getParseFile("avatar").getData());
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                mContext.startActivity(i);
+            }
+        });
 
 
 
