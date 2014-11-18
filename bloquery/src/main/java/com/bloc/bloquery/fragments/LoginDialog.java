@@ -1,6 +1,7 @@
 package com.bloc.bloquery.fragments;
 
 import android.app.DialogFragment;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,10 +11,10 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.bloc.bloquery.R;
+import com.bloc.bloquery.SignupActivity;
 import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParseUser;
-import com.parse.SignUpCallback;
 
 /**
  * Created by Daniel on 11/6/2014.
@@ -72,7 +73,7 @@ public class LoginDialog extends DialogFragment {
         mSignUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getLogPass();
+/*                getLogPass();
                 if (mUsername.equals("") || mPassword.equals("")) {
                     Toast.makeText(getActivity(), getString(R.string.invalid_signup),
                             Toast.LENGTH_LONG).show();
@@ -92,7 +93,9 @@ public class LoginDialog extends DialogFragment {
                             }
                         }
                     });
-                }
+                }*/
+                Intent i = new Intent(getActivity(), SignupActivity.class);
+                getActivity().startActivity(i);
             }
         });
 

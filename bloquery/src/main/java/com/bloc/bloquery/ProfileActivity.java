@@ -13,6 +13,8 @@ public class ProfileActivity extends Activity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
         Bundle extras = getIntent().getExtras();
 
         setContentView(R.layout.activity_profile);
