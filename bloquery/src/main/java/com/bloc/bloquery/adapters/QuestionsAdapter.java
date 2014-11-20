@@ -31,6 +31,14 @@ public class QuestionsAdapter extends ParseQueryAdapter {
     private static final String PARSE_QUESTION = "theQuestion";
     private static final String PARSE_NUM_ANSWERS = "numberOfAnswers";
     private static final String PARSE_ASKER_AVATAR = "askerAvatar";
+    private static final String PARSE_QUESTION_ASKER = "questionAsker";
+    private static final String PARSE_USER_DESCRIPTION = "description";
+    private static final String PARSE_USER_AVATAR = "avatar";
+
+    // constants for question interest indicator
+    private static final int HIGH_INTEREST = 10;
+    private static final int MEDIUM_INTEREST = 6;
+    private static final int LOW_INTEREST = 3;
 
     private Context mContext;
 
@@ -64,6 +72,7 @@ public class QuestionsAdapter extends ParseQueryAdapter {
         ImageView interestIndicator = (ImageView) cView.findViewById(R.id.iv_interest_indicator);
         setInterestIndicator(interestIndicator, numberAnswers);
 
+        // displays avatar of the asker
         ImageButton askerAvatarImageButton = (ImageButton) cView.findViewById(R.id.ib_avatar_question_asker);
         ParseFile avatar = object.getParseFile(PARSE_ASKER_AVATAR);
         try {
@@ -77,16 +86,16 @@ public class QuestionsAdapter extends ParseQueryAdapter {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(mContext, ProfileActivity.class);
-                ParseUser user = object.getParseUser("questionAsker");
+                ParseUser user = object.getParseUser(PARSE_QUESTION_ASKER);
                 try {
                     user.fetch();
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
                 i.putExtra("username", user.getUsername());
-                i.putExtra("description", user.getString("description"));
+                i.putExtra("description", user.getString(PARSE_USER_DESCRIPTION));
                 try {
-                    i.putExtra("avatar", user.getParseFile("avatar").getData());
+                    i.putExtra("avatar", user.getParseFile(PARSE_USER_AVATAR).getData());
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
@@ -103,9 +112,9 @@ public class QuestionsAdapter extends ParseQueryAdapter {
     // Sets the image to display based upon the number of answers to the question
     private void setInterestIndicator(ImageView interestIndicator, int numberAnswers) {
         int currentVersion = Build.VERSION.SDK_INT;
-        if (currentVersion >= 16 && numberAnswers > 2) {
+        if (currentVersion >= 16) {
             interestIndicator.setBackground(getBolts(numberAnswers));
-        } else if (currentVersion == 15 && numberAnswers > 2) {
+        } else {
             interestIndicator.setBackgroundDrawable(getBolts(numberAnswers));
         }
     }
@@ -113,12 +122,14 @@ public class QuestionsAdapter extends ParseQueryAdapter {
     // returns the correct graphic (lightning bolts) to display in indicator
     // only called if there are at least 3 answers
     private Drawable getBolts(int numberAnswers) {
-        if (numberAnswers > 9) {
+        if (numberAnswers >= HIGH_INTEREST) {
             return mContext.getResources().getDrawable(R.drawable.triple_bolt);
-        } else if (numberAnswers > 5) {
+        } else if (numberAnswers >= MEDIUM_INTEREST) {
             return mContext.getResources().getDrawable(R.drawable.double_bolt);
-        } else {
+        } else if (numberAnswers >= LOW_INTEREST) {
             return mContext.getResources().getDrawable(R.drawable.single_bolt);
+        } else {
+            return null;
         }
     }
 
