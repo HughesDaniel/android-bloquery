@@ -72,6 +72,7 @@ public class QuestionsAdapter extends ParseQueryAdapter {
         } catch (ParseException e) {
             e.printStackTrace();
         }
+        //load profile page for that user
         askerAvatarImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -146,6 +146,7 @@ public class QuestionsFragment extends Fragment {
         return (currentUser != null);
     }
 
+    // returns the byte array that all parse files are stored as
     private byte[] convertParseFile(ParseObject object) {
         byte[] avatar = null;
         try {
@@ -155,5 +156,9 @@ public class QuestionsFragment extends Fragment {
             e.printStackTrace();
         }
         return avatar;
+    }
+
+    public void refreshAdapter() {
+        mAdapter.loadObjects();
     }
 }

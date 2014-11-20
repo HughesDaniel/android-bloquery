@@ -30,6 +30,8 @@
     <string name="sample">Sample:</string>
     <string name="sample_question">What is the air-speed velocity of an unladen swallow? </string>
 
+    <string name="empty_view">Be the first to answer this question!!</string>
+
     <string name="really_long">this string is really long. I am going to use it for testing
     stuff where I want to see how things look when I have wrap around. For instance if I ask
     a really lonq question. What will my text view look like?</string>

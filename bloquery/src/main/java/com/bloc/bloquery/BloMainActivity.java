@@ -21,13 +21,18 @@ public class BloMainActivity extends Activity implements AskQuestionDialog.AskQu
 
     private static final String TAG = ".BloMainActivity.java";
 
+    private QuestionsFragment mQuestionsFragment;
+    private AnswersFragment mAnswersFragment;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         if (savedInstanceState == null) {
+            mQuestionsFragment = new QuestionsFragment();
             getFragmentManager().beginTransaction()
-                    .add(R.id.container, new QuestionsFragment())
+                    //.add(R.id.container, new QuestionsFragment())
+                    .add(R.id.container, mQuestionsFragment)
                     .commit();
         }
     }
@@ -79,15 +84,18 @@ public class BloMainActivity extends Activity implements AskQuestionDialog.AskQu
     public void onAskQuestion(AskQuestionDialog askQuestionDialog, String question) {
         QuestionModelCenter qmc = new QuestionModelCenter(this);
         qmc.createNewQuestion(question);
+        // user added a question, reload the adapter
+        mQuestionsFragment.refreshAdapter();
     }
 
     @Override
     public void onQuestionItemSelected(String id, String question, String askerId,
                                        String askerUsername, byte[] avatar) {
+        mAnswersFragment =  AnswersFragment.newInstance(id, question, askerId,
+                askerUsername, avatar);
         FragmentManager fragmentManager = getFragmentManager();
         fragmentManager.beginTransaction()
-                .replace(R.id.container, AnswersFragment.newInstance(id, question, askerId,
-                        askerUsername, avatar))
+                .replace(R.id.container, mAnswersFragment)
                 .addToBackStack(null)
                 .commit();
     }
@@ -97,5 +105,6 @@ public class BloMainActivity extends Activity implements AskQuestionDialog.AskQu
                                  String questionId) {
         AnswerModelCenter amc = new AnswerModelCenter(this);
         amc.createAnswerToQuestion(answer, questionId);
+        mAnswersFragment.refreshAdapter();
     }
 }

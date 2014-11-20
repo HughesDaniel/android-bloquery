@@ -10,6 +10,33 @@
         android:layout_height="0dp"
         android:layout_weight=".8" />
 
+    <RelativeLayout
+        android:id="@+id/empty_layout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight=".8" >
+
+        <ImageButton
+            android:id="@+id/ib_add_question_empty"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/ic_add_answer_empty"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="@string/empty_view"
+            android:layout_below="@+id/ib_add_question_empty"
+            android:layout_marginTop="5dp"/>
+
+
+    </RelativeLayout>
+
+
+
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="fill_parent"

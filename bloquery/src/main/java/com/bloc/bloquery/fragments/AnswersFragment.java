@@ -10,9 +10,11 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bloc.bloquery.R;
@@ -91,17 +93,27 @@ public class AnswersFragment extends Fragment {
 
         LinearLayout rootView = (LinearLayout) inflater.inflate(R.layout.answers_listview,
                 container, false);
+        // The question
         TextView questionTextView = (TextView) rootView.findViewById(R.id.tv_question_in_answer_dialog);
         questionTextView.setText(mQuestion);
-
+        // The avatar of the asker
         ImageView askerIdImageView = (ImageView) rootView.findViewById(R.id.iv_avatar_question_asker_in_answer_dialog);
         askerIdImageView.setImageBitmap(decodeBitmap(mAskerAvatar));
-
-
-
+        // the view for when the listview is empty
+        RelativeLayout emptyView = (RelativeLayout) rootView.findViewById(R.id.empty_layout);
+        // The button to answer a question when the listview is empty
+        ImageButton emptyButton = (ImageButton) rootView.findViewById(R.id.ib_add_question_empty);
+        emptyButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                answerQuestion();
+            }
+        });
 
         mListView = (ListView) rootView.findViewById(R.id.lv_answers);
+        mListView.setEmptyView(emptyView);
 
+        // The set of conditions to give to the arrayadapter
         ParseQueryAdapter.QueryFactory<ParseObject> factory =
                 new ParseQueryAdapter.QueryFactory<ParseObject>() {
                     public ParseQuery create() {
@@ -113,6 +125,7 @@ public class AnswersFragment extends Fragment {
                 };
 
         mAdapter = new AnswersAdapter(getActivity(), factory);
+
         mListView.setAdapter(mAdapter);
 
         return rootView;
@@ -129,16 +142,20 @@ public class AnswersFragment extends Fragment {
         super.onOptionsItemSelected(item);
         int id = item.getItemId();
         if (id == R.id.answer_bloquery) {
-            if (isLoggedIn()) {
-                AnswerQuestionDialog dialog = AnswerQuestionDialog.newInstance(mQuestion, mQuestionId, mAskerAvatar);
-                dialog.show(getFragmentManager(), "answer_questions_dialog_fragment");
-            } else { // make the user login
-                LoginDialog login = new LoginDialog();
-                login.show(getFragmentManager(), "login_dialog_fragment");
-            }
+            answerQuestion();
             return true;
         }
         return false;
+    }
+
+    private void answerQuestion() {
+        if (isLoggedIn()) {
+            AnswerQuestionDialog dialog = AnswerQuestionDialog.newInstance(mQuestion, mQuestionId, mAskerAvatar);
+            dialog.show(getFragmentManager(), "answer_questions_dialog_fragment");
+        } else { // make the user login
+            LoginDialog login = new LoginDialog();
+            login.show(getFragmentManager(), "login_dialog_fragment");
+        }
     }
 
     private boolean isLoggedIn() {
@@ -156,5 +173,9 @@ public class AnswersFragment extends Fragment {
         Bitmap bitmap = BitmapFactory.decodeByteArray(file, 0, length);
 
         return bitmap;
+    }
+
+    public void refreshAdapter() {
+        mAdapter.loadObjects();
     }
 }

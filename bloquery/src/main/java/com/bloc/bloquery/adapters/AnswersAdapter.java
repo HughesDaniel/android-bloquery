@@ -83,6 +83,7 @@ public class AnswersAdapter extends ParseQueryAdapter{
             e.printStackTrace();
         }
 
+        // load profile page when clicked
         answererAvatar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
